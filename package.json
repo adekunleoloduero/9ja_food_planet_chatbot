@@ -1,0 +1,32 @@
+{
+  "name": "9ja_food_planet_chatbot",
+  "version": "1.0.0",
+  "description": "Full stack chatbot application for a hypothetical restaurant. Built as exam project for the third semester at AltSchool Africa.",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adekunleoloduero/9ja_food_planet_chatbot.git"
+  },
+  "keywords": [
+    "chatbot",
+    "node.js",
+    "socket.io",
+    "websocket"
+  ],
+  "author": "Sheriff Adekunle Tajudeen",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/adekunleoloduero/9ja_food_planet_chatbot/issues"
+  },
+  "homepage": "https://github.com/adekunleoloduero/9ja_food_planet_chatbot#readme",
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "ejs": "^3.1.9",
+    "express": "^4.18.2",
+    "socket.io": "^4.6.1"
+  }
+}
