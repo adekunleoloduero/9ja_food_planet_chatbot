@@ -4,7 +4,7 @@
   "description": "Full stack chatbot application for a hypothetical restaurant. Built as exam project for the third semester at AltSchool Africa.",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon server.js",
+    "dev": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
