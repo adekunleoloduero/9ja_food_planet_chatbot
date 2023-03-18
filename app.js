@@ -19,6 +19,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 
+
 //Routes
 app.get('/', async (req, res, next) => {
     res.sendFile(path.join(__dirname, 'index.html'));

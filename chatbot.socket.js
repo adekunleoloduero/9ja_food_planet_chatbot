@@ -2,21 +2,21 @@ module.exports = {
     start: function(io) {
         io.on('connection', (socket) => {
             //Chatbot initialization
-            socket.emit("showMainMenu", "mainMenu");
+            socket.emit("showMainMenu", {menuType: "mainMenu", id: socket.id});
             
             //Place order
             socket.on("placeOrder", (data) => {
-                socket.emit("createOrder", {msg: data.msg, menuType: 'mealMenu'});
+                socket.emit("createOrder", {msg: data.msg, menuType: 'mealMenu', id: socket.id});
             });
 
             //Checkout order or select meal with same option
             socket.on("checkoutOrder", (data) => {
-                socket.emit("orderPlaced", {msg: data.msg, menuType: "mainMenu"});
+                socket.emit("orderPlaced", {msg: data.msg, menuType: "mainMenu", id: socket.id});
             });
 
             //See order history or select meal with same option
             socket.on("ordersHistory", (state) => {
-                socket.emit("seeOrdersHistory", {msg: data.msg, menuType: "mainMenu"});
+                socket.emit("seeOrdersHistory", {msg: data.msg, menuType: "mainMenu", id: socket.id});
             });
 
             //Current order history or select meal with same option
@@ -40,7 +40,7 @@ module.exports = {
             })
             
             socket.on("orderCreated", (data) => {
-                socket.emit("addTocart", {msg: data.msg, menuType: "mainMenu"})
+                socket.emit("addTocart", {msg: data.msg, menuType: "mainMenu", id: socket.id})
             });           
            
             

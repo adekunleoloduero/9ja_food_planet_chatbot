@@ -3,8 +3,7 @@ const sendButton = document.getElementById('send-button');
 const messageBox = document.getElementById('message-box');
 var menuType = 'mainMenu';
 const botName = `<p class="bot-name">9ja FP Chatbot</p>`;
-let orderId;
-let validOptions = [];
+const cart = {};
 
 
 
@@ -25,11 +24,7 @@ const mealMenu = {
     "104":  {desc: 'Moin-moin', price: 600}
 }
 
-//Session
-const customerIds = {};
-
-//Orders
-const allOrders = {};
+const customers = {};
 
 
 //Socket connection
@@ -85,6 +80,11 @@ function printMessages(customerMsgContent, botMsgContent) {
 
 //Show main menu
 socket.on("showMainMenu", (data) => {
+    //customer and order information
+    if (!customers.hasOwnProperty(data.id)) {
+        customers[data.id] = [];
+    }
+
     let customerMsgContent;
     if (data.msg) {
         date1 = Date.now();
@@ -134,8 +134,7 @@ socket.on("createOrder", (data) => {
 //Add order to cart
 socket.on("addTocart", (data) => {
     menuType = data.menuType;
-    orderId = data.msg
-
+    cart[data.id] = mealMenu[data.msg];
     let date1, date2;
 
     //Cutomer Message
@@ -165,8 +164,15 @@ socket.on("addTocart", (data) => {
 //Checkout order
 socket.on("orderPlaced", (data) => {
     menuType = data.menuType
-    const order = mealMenu[orderId];
+    let order;
+    if (cart.hasOwnProperty(data.id)) {
+        order = cart[data.id];
+        delete cart[data.id];
+    }
+    
+    console.log(data);
 
+    customers[data.id].push(order); //Save order;
     let date1, date2;
 
     //Cutomer Message
@@ -196,7 +202,8 @@ socket.on("orderPlaced", (data) => {
 
 //See orders history
 socket.on("seeOrdersHistory", (data) => {
-    menuType = data.menuType
+    menuType = data.menuType;
+    const orders = customers[data.id];
     let date1, date2;
 
     //Cutomer Message
@@ -207,14 +214,23 @@ socket.on("seeOrdersHistory", (data) => {
     <p class="customer-reply">${data.msg}</p>
     `
 
+    let allOrders = '';
+
+    for (const order of customers[data.id]) {
+        let orderText = `<li>${order.desc}: ${order.price}</li>`
+        allOrders += orderText;
+    }
+
     //Chatbot message
     date2 = Date.now();
     const botMsgContent = 
     `
     ${botName}
-    <p>${date2}</p>
-    <p>Your order is being processed...</p>
-    <h4>Order Details:</h4>
+    <p class="time">${date2}</p>
+    <h4>Your order history:</h4>
+    <ul>
+        ${allOrders}
+    </ul>
     <ul class="options">
         <li>00. Back to Main Menu</li>
     </ul>
