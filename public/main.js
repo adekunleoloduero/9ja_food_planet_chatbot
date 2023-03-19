@@ -203,7 +203,20 @@ socket.on("orderPlaced", (data) => {
 //See orders history
 socket.on("seeOrdersHistory", (data) => {
     menuType = data.menuType;
+    let orderHistoryText;
     const orders = customers[data.id];
+    if (orders.length < 1) {
+        orderHistoryText = `<p>Your order history is currently empty</p>`
+    } else {
+        let allOrders = '';
+
+        for (const order of orders) {
+            let orderText = `<p>${order.desc}: ${order.price}</p>`
+            allOrders += orderText;
+        }
+        orderHistoryText = allOrders;
+    }
+    
     let date1, date2;
 
     //Cutomer Message
@@ -213,13 +226,47 @@ socket.on("seeOrdersHistory", (data) => {
     <p class="time">${date1}</p>
     <p class="customer-reply">${data.msg}</p>
     `
+   
+    //Chatbot message
+    date2 = Date.now();
+    const botMsgContent = 
+    `
+    ${botName}
+    <p class="time">${date2}</p>
+    <h4>Orders history:</h4>
+    ${orderHistoryText}
+    <hr>
+    <ul class="options">
+        <li>00. Back to Main Menu</li>
+    </ul>
+    `
+    printMessages(customerMsgContent, botMsgContent)   
+})
 
-    let allOrders = '';
 
-    for (const order of customers[data.id]) {
-        let orderText = `<li>${order.desc}: ${order.price}</li>`
-        allOrders += orderText;
+//See current order
+socket.on("seeCurrentOrder", (data) => {
+    menuType = data.menuType;
+    const orders = customers[data.id];
+    let currentOrder;
+    let currentOrderText;
+
+    if (orders.length < 1) {
+        currentOrderText = `<p>Your order history is currently empty</p>`
+    } else if (orders.length >= 1) {
+        currentOrder = orders[orders.length - 1];
+        currentOrderText = `<p>${currentOrder.desc}: ${currentOrder.price}</p>`
     }
+    
+    let date1, date2;
+
+    //Cutomer Message
+    date1 = Date.now();
+    const customerMsgContent = `
+    <p class="customer-name">You</p>
+    <p class="time">${date1}</p>
+    <p class="customer-reply">${data.msg}</p>
+    ` 
 
     //Chatbot message
     date2 = Date.now();
@@ -227,10 +274,54 @@ socket.on("seeOrdersHistory", (data) => {
     `
     ${botName}
     <p class="time">${date2}</p>
-    <h4>Your order history:</h4>
-    <ul>
-        ${allOrders}
+    <h4>Current order:</h4>
+    ${currentOrderText}
+    <hr>
+    <ul class="options">
+        <li>00. Back to Main Menu</li>
     </ul>
+    `
+    printMessages(customerMsgContent, botMsgContent)   
+})
+
+//Cancel order
+//See current order
+socket.on("cancelLasOrder", (data) => {
+    menuType = data.menuType;
+    const orders = customers[data.id];
+    let lastOrder;
+    let canceledOrderText;
+
+    if (orders.length < 1) {
+        canceledOrderText = `<p>Your order history is currently empty</p>`
+    } else if (orders.length >= 1) {
+        lastOrder = orders[orders.length - 1];
+        canceledOrderText = `
+        <p>Order canceled successfully</p>
+        <h4>Order details:</h4>
+        <p>${lastOrder.desc}: ${lastOrder.price}</p>
+        `
+        customers[data.id].pop(lastOrder);
+    }
+    
+    let date1, date2;
+
+    //Cutomer Message
+    date1 = Date.now();
+    const customerMsgContent = `
+    <p class="customer-name">You</p>
+    <p class="time">${date1}</p>
+    <p class="customer-reply">${data.msg}</p>
+    ` 
+
+    //Chatbot message
+    date2 = Date.now();
+    const botMsgContent = 
+    `
+    ${botName}
+    <p class="time">${date2}</p>
+    ${canceledOrderText}
+    <hr>
     <ul class="options">
         <li>00. Back to Main Menu</li>
     </ul>

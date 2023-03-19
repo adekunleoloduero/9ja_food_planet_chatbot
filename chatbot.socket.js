@@ -15,18 +15,18 @@ module.exports = {
             });
 
             //See order history or select meal with same option
-            socket.on("ordersHistory", (state) => {
+            socket.on("ordersHistory", (data) => {
                 socket.emit("seeOrdersHistory", {msg: data.msg, menuType: "mainMenu", id: socket.id});
             });
 
             //Current order history or select meal with same option
-            socket.on("currentOrder", (state) => {
-
+            socket.on("currentOrder", (data) => {
+                socket.emit("seeCurrentOrder", {msg: data.msg, menuType: "mainMenu", id: socket.id});
             });
 
             //Cancel order history or select meal with same option
-            socket.on("cancelOrder", (state) => {
-
+            socket.on("cancelOrder", (data) => {
+                socket.emit("cancelLasOrder", {msg: data.msg, menuType: "mainMenu", id: socket.id});
             });
 
             //Invalid option history or select meal with same option
