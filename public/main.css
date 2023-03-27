@@ -19,13 +19,12 @@ header {
 
 
 main {
-    width: 80%;
     margin: 0 auto;
     margin-top: 4em;
 }
 
 #chat-interface {
-    width: 40%;
+    width: 35%;
     margin: 0 auto;
 }
 
@@ -112,3 +111,64 @@ footer {
     margin-bottom: 1.9em;
     font-size: 0.9em;
 }
+
+
+
+/* Medium screen */
+@media screen  and (max-width: 900px) {
+    
+    #chat-interface {
+        width: 55%;
+    }
+
+    #chat-messages {
+        font-size: 0.8em;
+    }
+
+    #message-input form button {
+        padding: 1.2em;
+    }
+
+    footer {
+        margin-top: 9.5em;
+        font-size: 0.8em;
+    }
+
+  }
+  
+  /*Mobile devices*/
+  @media screen  and (max-width: 500px) {
+
+    #chat-interface {
+        width: 75%;
+    }
+
+    #message-input form button {
+        padding: 0.9em;
+    }
+
+    footer {
+        margin-top: 10.5em;
+        font-size: 0.8em;
+    }
+  
+  }
+  
+  @media screen  and (max-width: 281px) {
+    #chat-interface {
+        width: 80%;
+    }
+
+    #chat-messages {
+        font-size: 0.6em;
+    }
+
+    #message-input form button {
+        padding: 0.7em;
+    }
+
+    footer {
+        font-size: 0.6em;
+        margin-top: 14.5em
+    }
+  }
